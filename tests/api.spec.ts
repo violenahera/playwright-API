@@ -2,6 +2,8 @@ import { test, expect } from "@playwright/test";
 import { describe } from "node:test";
 import { ApiLogger } from "../utils/apiLogger";
 import addPetJSON from "../payloads/pet.json" with {type: "json"};
+import { Pet } from "../utils/type";
+
 
 let log= new ApiLogger();
 
@@ -39,5 +41,8 @@ test.describe("Pets", async () => {
     const response =await request.post("pet", requestOption);
     await  expect(response).toBeOK;
     log.log("POST", response);
+    const petResponse= await (response.json()) as  Pet;
+    console.log(petResponse.name);
+    console.log(JSON.stringify(petResponse,null,2));    
   });
 });
