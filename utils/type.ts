@@ -18,3 +18,10 @@ export interface Tag {
 
 }
 
+export interface Order {
+  id: number;
+  petId: number;
+  quantity: number;
+  shipDate: string;
+}
+

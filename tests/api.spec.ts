@@ -2,7 +2,8 @@ import { test, expect } from "@playwright/test";
 import { describe } from "node:test";
 import { ApiLogger } from "../utils/apiLogger";
 import addPetJSON from "../payloads/pet.json" with {type: "json"};
-import { Pet } from "../utils/type";
+import { Pet, Order} from "../utils/type";
+import AddOrderJSON from "../payloads/order.json" with {type: "json"};
 
 
 let log= new ApiLogger();
@@ -45,4 +46,21 @@ test.describe("Pets", async () => {
     console.log(petResponse.name);
     console.log(JSON.stringify(petResponse,null,2));    
   });
+  test("Update a pet", async ({ request }) => {
+
+    const requestOption = {
+     headers: {
+       'Content-Type': 'application/json'
+     },
+     data: AddOrderJSON,
+    };
+    const response =await request.post("store/order", requestOption);
+    await  expect(response).toBeOK;
+    const orderResponse = await (response.json()) as Order;
+    console.log(orderResponse.petId);
+    log.log("POST", response);
+    console.log(JSON.stringify(requestOption,null,2));
+    });
+
+
 });
